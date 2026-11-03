@@ -1,0 +1,51 @@
+#include <iostream>
+using namespace std;
+
+// Implement your Counter class here
+class Counter {
+private:
+    int count = 0;
+    static int rejectedCount = 0;
+
+public: 
+    void add (int amount) {
+       
+        if ((count + amount < 0) || (count + amount > 100) || (amount <= 0)){
+        //what happens if I do (count += amount < 0) in the if condition? does it work?
+            ++ rejectedCount;
+            return;
+        }
+        count += amount;
+        
+    }
+
+    void subtract (int amount) {
+        if ((count - amount < 0) || (count - amount > 100) || (amount <= 0)){
+            ++rejectedCount;
+            return;
+        }
+        count -= amount;
+
+    }
+
+    
+    int reset () {
+    
+        count = 0;
+        return count;
+    }
+      
+    
+
+};
+int main() {
+    
+    // Create two counters
+    Counter c1;
+    Counter c2;
+    // Perform the required operations
+
+    // Print the results
+    //assume I did it right
+    return 0;
+}
