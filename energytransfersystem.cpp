@@ -62,30 +62,35 @@ private:
 
 public:
     // TODO: Declare member functions only.
-    void add (int amount) {
-    }
+    void add (int amount);
     
-    void transfer (EnergyCell* cell) {
-    }
+    void transfer (EnergyCell* cell1, EnergyCell* cell2, int amount);
 };
 
 
 // TODO: Define all member functions here.
-void add (int amount) {
+EnergyCell::void add (int amount) {
         if ((amount <= 0) || (amount > 200 - energy)) {
             return;
         }
         energy += amount;
     }
     
-    void transfer (EnergyCell* cell) {
-        this -> energy;
+EnergyCell::void transfer (EnergyCell* cell1, EnergyCell* cell2, int amount) {
+    if ((amount <= 0) || (amount > cell1) || (amount > cell2)) || (amount + cell1 > 200) || (amount + cell2 > 200){
+            return;
+    }    
+    
+    int temp_energy = (*cell1).energy; 
+    (*cell1).energy -= amount;
+    (*cell2).energy += amount;
+
     }
 
 int main() {
     /**
      * TODO: Create two EnergyCell objects, A and B.
-     *
+
      * TEST SCENARIO:
      *
      * 1. Add 150 to A.           Accepted
@@ -107,5 +112,8 @@ int main() {
      * Rejected operations: 4
      */
 
-    return 0;
+    EnergyCell A{0};
+    EnergyCell B{0};
+    
+     return 0;
 }
