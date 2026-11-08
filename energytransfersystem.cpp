@@ -59,33 +59,47 @@ class EnergyCell {
 private:
     // TODO: Declare private data.
     int energy = 0;
+    inline static int rejection_count = 0;
 
 public:
     // TODO: Declare member functions only.
     void add (int amount);
     
-    void transfer (EnergyCell* cell1, EnergyCell* cell2, int amount);
+    void transfer (EnergyCell& cell, int amount);
+
+    int getEnergy() const;
+
+    static int getRejectionCount();
 };
 
 
 // TODO: Define all member functions here.
-EnergyCell::void add (int amount) {
+void EnergyCell::add (int amount) {
         if ((amount <= 0) || (amount > 200 - energy)) {
+            ++rejection_count;
             return;
         }
         energy += amount;
     }
     
-EnergyCell::void transfer (EnergyCell* cell1, EnergyCell* cell2, int amount) {
-    if ((amount <= 0) || (amount > cell1) || (amount > cell2)) || (amount + cell1 > 200) || (amount + cell2 > 200){
-            return;
-    }    
-    
-    int temp_energy = (*cell1).energy; 
-    (*cell1).energy -= amount;
-    (*cell2).energy += amount;
-
+void EnergyCell:: transfer (EnergyCell& cell, int amount) {
+    if ((amount <= 0) || (amount > (this -> energy)) || (amount > 200 - cell.energy) || (this == &cell)) {
+        ++rejection_count;     
+        return;
     }
+
+    
+    cell.energy += amount;
+    this -> energy -= amount;
+    }
+
+int EnergyCell::getEnergy() const {
+    return this -> energy;
+}
+
+int EnergyCell::getRejectionCount() {
+    return rejection_count;
+}
 
 int main() {
     /**
@@ -112,8 +126,25 @@ int main() {
      * Rejected operations: 4
      */
 
-    EnergyCell A{0};
-    EnergyCell B{0};
+    EnergyCell A;
+    EnergyCell B;
+    
+    A.add (150);
+    B.add (80);
+
+    A.transfer(B, 50);
+    B.transfer(A, 75);
+
+    A.add (30);
+    B.transfer(A, 80);
+    A.transfer(A, 1);
+    B.add(INT_MAX);
+
+    cout << "Cell A: " << A.getEnergy() << '\n';
+    cout << "Cell B: " << B.getEnergy() << '\n';
+    cout << "Rejected operations: " << EnergyCell::getRejectionCount()<< '\n';
+
+
     
      return 0;
 }
